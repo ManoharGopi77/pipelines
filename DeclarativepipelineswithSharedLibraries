@@ -1,0 +1,60 @@
+@Library('library')_
+
+pipeline
+{
+    agent any
+    stages
+    {
+        stage('contdown')
+        {
+            steps
+            {
+                script
+                {
+                    cicd.gitdownload("maven1")
+                }
+            }
+        }
+         stage('contbuild')
+        {
+            steps
+            {
+                script
+                {
+                    cicd.build()
+                }
+            }
+        }
+        stage('contDeploy')
+        {
+            steps
+            {
+                script
+                {
+                    cicd. deploytomcat("DeclarativepipelineswithSharedLibraries","172.31.93.75","testapp")
+                }
+            }
+        }
+        stage('conttesting')
+        {
+            steps
+            {
+                script
+                {
+                    cicd.gitdownload("Functionaltesting")
+                    cicd.runSelenium("DeclarativepipelineswithSharedLibraries")
+                }
+            }
+        }
+        stage('contDelivery')
+        {
+            steps
+            {
+                script
+                {
+                    cicd. deploytomcat("DeclarativepipelineswithSharedLibraries","172.31.84.240","prodapp")
+                }
+            }
+        }
+    }
+}
