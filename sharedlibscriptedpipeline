@@ -1,0 +1,26 @@
+@Library('library')_
+
+node('built-in')
+{
+    stage('contdown')
+    {
+        cicd.gitdownload("maven1")
+    }
+     stage('contbuild')
+    {
+        cicd.build()
+    }
+     stage('contdeploy')
+    {
+        cicd.deploytomcat("sharedlibscriptedpipeline","172.31.93.75","testapp")
+    }
+     stage('conttesting')
+     {
+         cicd.gitdownload("Functionaltesting")
+         cicd.runSelenium("sharedlibscriptedpipeline")
+     }
+     stage('contDelivery')
+     {
+          cicd. deploytomcat("sharedlibscriptedpipeline","172.31.84.240","prodapp")
+     }
+}
